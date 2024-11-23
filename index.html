@@ -22,13 +22,9 @@
             const longitude = position.coords.longitude;
 
             // Send data to your server
-            fetch('https://your-server-url.com/location', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ latitude, longitude }),
-            })
+            console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+alert(`Latitude: ${latitude}, Longitude: ${longitude}`);
+
             .then(response => response.json())
             .then(data => {
                 alert("Location sent successfully!");
